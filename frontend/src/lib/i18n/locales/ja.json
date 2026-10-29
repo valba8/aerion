@@ -108,6 +108,7 @@
     "markAsNotSpam": "迷惑メールではないと報告",
     "star": "スターを付ける",
     "removeStar": "スターを外す",
+    "toggleQuoted": "引用テキストを表示/非表示",
     "markAsRead": "既読にする",
     "markAsUnread": "未読にする",
     "expandAll": "すべて展開",

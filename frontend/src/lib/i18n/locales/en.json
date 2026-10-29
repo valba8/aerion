@@ -108,6 +108,7 @@
     "markAsNotSpam": "Mark as NOT Spam",
     "star": "Star",
     "removeStar": "Remove star",
+    "toggleQuoted": "Show/hide quoted text",
     "markAsRead": "Mark as read",
     "markAsUnread": "Mark as unread",
     "expandAll": "Expand All",

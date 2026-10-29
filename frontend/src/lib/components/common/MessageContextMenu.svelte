@@ -40,6 +40,9 @@
     onActionComplete?: (autoSelectNext?: boolean) => void
     onReply?: (mode: 'reply' | 'reply-all' | 'forward', messageId: string) => void
     onOpenChange?: (open: boolean) => void
+    // Shown only for single-message menus in the conversation viewer
+    isViewingSource?: boolean
+    onToggleSource?: () => void
     children?: Snippet
   }
 
@@ -53,6 +56,8 @@
     onActionComplete,
     onReply,
     onOpenChange,
+    isViewingSource = false,
+    onToggleSource,
     children,
   }: Props = $props()
 
@@ -373,6 +378,14 @@
       />
       {$_(isRead ? 'contextMenu.markAsUnread' : 'contextMenu.markAsRead')}
     </ContextMenuItem>
+
+    {#if onToggleSource}
+      <ContextMenuSeparator />
+      <ContextMenuItem onSelect={onToggleSource}>
+        <Icon icon="mdi:code-tags" class="mr-2 h-4 w-4" />
+        {$_(isViewingSource ? 'viewer.hideSource' : 'viewer.viewSource')}
+      </ContextMenuItem>
+    {/if}
   </ContextMenuContent>
 </ContextMenuPrimitive.Root>
 

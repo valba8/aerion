@@ -108,6 +108,7 @@
     "markAsNotSpam": "Fjern markering som søppelpost",
     "star": "Stjernemerk",
     "removeStar": "Fjern stjernemerking",
+    "toggleQuoted": "Vis/skjul sitert tekst",
     "markAsRead": "Marker som lest",
     "markAsUnread": "Marker som ulest",
     "expandAll": "Utvid alle",

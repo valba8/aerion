@@ -1464,6 +1464,8 @@
                 isRead={msg.isRead}
                 onActionComplete={handleContextMenuActionComplete}
                 {onReply}
+                isViewingSource={viewingSourceMessageId === msg.id}
+                onToggleSource={() => toggleViewSource(msg.id)}
               >
                 <div
                   class="border rounded-lg overflow-hidden transition-all {focusedMessageId === msg.id ? 'border-primary ring-2 ring-primary/20' : 'border-border'}"
@@ -1640,7 +1642,7 @@
                 <!-- Message Body (visible when expanded) -->
                 {#if isExpanded}
                   <div class="px-4 pb-4 pt-0">
-                    <div class="ml-13 pl-3 border-l-2 border-border">
+                    <div class="ml-13 pl-3">
                       <!-- Read Receipt Banner -->
                       {#if shouldShowReadReceiptBanner(msg) && readReceiptPolicy === 'ask'}
                         <div class="flex items-center justify-between gap-3 px-3 py-2 mb-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-md">
@@ -1814,38 +1816,28 @@
                         </div>
                       {/if}
 
-                      <!-- View Source Button -->
-                      <div class="border-t border-border pt-4 mt-4">
-                        <button
-                          onclick={() => toggleViewSource(msg.id)}
-                          class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                          <Icon icon={viewingSourceMessageId === msg.id ? 'mdi:code-tags' : 'mdi:code-tags'} class="w-4 h-4" />
-                          {viewingSourceMessageId === msg.id ? $_('viewer.hideSource') : $_('viewer.viewSource')}
-                        </button>
-
-                        {#if viewingSourceMessageId === msg.id}
-                          <div class="mt-3">
-                            {#if loadingSource}
-                              <div class="flex items-center gap-2 text-sm text-muted-foreground">
-                                <Icon icon="mdi:loading" class="w-4 h-4 animate-spin" />
-                                {$_('viewer.loadingSource')}
-                              </div>
-                            {:else if messageSource}
-                              <div class="relative">
-                                <button
-                                  onclick={() => copyToClipboard(messageSource || '', $_('viewer.viewSource'))}
-                                  class="absolute top-2 right-2 p-1.5 rounded bg-muted hover:bg-muted/80 transition-colors"
-                                  title={$_('viewer.copySource')}
-                                >
-                                  <Icon icon="mdi:content-copy" class="w-4 h-4" />
-                                </button>
-                                <pre class="text-xs bg-muted/50 p-4 rounded-md overflow-x-auto max-h-96 overflow-y-auto whitespace-pre-wrap break-all font-mono">{messageSource}</pre>
-                              </div>
-                            {/if}
+                      <!-- Message source (toggled from the message context menu) -->
+                      {#if viewingSourceMessageId === msg.id}
+                        <div class="mt-4">
+                          {#if loadingSource}
+                            <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                              <Icon icon="mdi:loading" class="w-4 h-4 animate-spin" />
+                              {$_('viewer.loadingSource')}
+                            </div>
+                          {:else if messageSource}
+                            <div class="relative">
+                              <button
+                                onclick={() => copyToClipboard(messageSource || '', $_('viewer.viewSource'))}
+                                class="absolute top-2 right-2 p-1.5 rounded bg-muted hover:bg-muted/80 transition-colors"
+                                title={$_('viewer.copySource')}
+                              >
+                                <Icon icon="mdi:content-copy" class="w-4 h-4" />
+                              </button>
+                              <pre class="text-xs bg-muted/50 p-4 rounded-md overflow-x-auto max-h-96 overflow-y-auto whitespace-pre-wrap break-all font-mono">{messageSource}</pre>
+                            </div>
+                          {/if}
                           </div>
-                        {/if}
-                      </div>
+                      {/if}
                     </div>
                   </div>
                 {/if}

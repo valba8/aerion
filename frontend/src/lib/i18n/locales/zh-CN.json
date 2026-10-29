@@ -108,6 +108,7 @@
     "markAsNotSpam": "标记为非垃圾邮件",
     "star": "加星标",
     "removeStar": "移除星标",
+    "toggleQuoted": "显示/隐藏引用文本",
     "markAsRead": "标记为已读",
     "markAsUnread": "标记为未读",
     "expandAll": "全部展开",

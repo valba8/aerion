@@ -108,6 +108,7 @@
     "markAsNotSpam": "N'est pas un Spam",
     "star": "Suivre",
     "removeStar": "Ne plus suivre",
+    "toggleQuoted": "Afficher/masquer le texte cité",
     "markAsRead": "Marquer comme lu",
     "markAsUnread": "Marquer comme non lu",
     "expandAll": "Tout développer",

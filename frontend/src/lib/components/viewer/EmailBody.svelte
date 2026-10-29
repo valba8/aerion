@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from '@iconify/svelte'
+  import { untrack } from 'svelte'
   import { BrowserOpenURL } from '../../../../wailsjs/runtime/runtime'
   import { GetInlineAttachments, AddImageAllowlist, OpenURL } from '../../../../wailsjs/go/app/App'
   import { getCached, setCache } from '../../stores/inlineAttachmentCache'
@@ -9,6 +10,7 @@
   import { _ } from '$lib/i18n'
   import { toasts } from '$lib/stores/toast'
   import { getAlwaysLoadImages, getThemeMode } from '$lib/stores/settings.svelte'
+  import { collapseQuotedHtml, splitQuotedText, QUOTE_TOGGLE_CLASS, QUOTE_WRAPPER_CLASS } from './quotedText'
 
   interface Props {
     messageId: string
@@ -46,8 +48,12 @@
   let ctxMenuX = $state(0)
   let ctxMenuY = $state(0)
 
+  // Quoted text (previous messages in a reply) is collapsed until toggled
+  let quoteExpanded = $state(false)
+
   // Derived state
   let hasRemoteImages = $derived(checkForRemoteImages(bodyHtml))
+  let splitText = $derived(splitQuotedText(bodyText))
 
   // Outer iframe element bg: matches the dark-mail surface color (derived from
   // active theme) when darken=true, otherwise white. Reactive to theme changes
@@ -168,7 +174,8 @@
   }
 
   function buildIframeContent(html: string, applyDarken: boolean): string {
-    const processedHtml = processHtml(html, imagesBlocked)
+    // untrack: toggling happens inside the iframe, so it must not trigger a rebuild
+    const processedHtml = collapseQuotedHtml(processHtml(html, imagesBlocked), untrack(() => quoteExpanded), $_('viewer.toggleQuoted'))
     const imgSrc = imagesBlocked ? "'self' data:" : '* data:'
 
     // Double-invert: page-level invert + image-level re-invert keeps photos
@@ -246,7 +253,7 @@
         }
         if (e.data?.type === 'request-print-html') {
           var clone = document.body.cloneNode(true);
-          clone.querySelectorAll('script').forEach(function(s){ s.remove(); });
+          clone.querySelectorAll('script, .${QUOTE_TOGGLE_CLASS}').forEach(function(s){ s.remove(); });
           window.parent.postMessage({ type: 'print-html', html: clone.innerHTML }, '*');
         }
       });
@@ -263,6 +270,16 @@
       setTimeout(sendHeight, 200);
       
       document.addEventListener('click', function(e) {
+        var toggle = e.target.closest('.${QUOTE_TOGGLE_CLASS}');
+        if (toggle) {
+          var quote = toggle.nextElementSibling;
+          if (quote && quote.classList.contains('${QUOTE_WRAPPER_CLASS}')) {
+            quote.hidden = !quote.hidden;
+            toggle.setAttribute('aria-expanded', String(!quote.hidden));
+            window.parent.postMessage({ type: 'quote-toggle', expanded: !quote.hidden }, '*');
+          }
+          return;
+        }
         var link = e.target.closest('a');
         if (link && link.href) {
           e.preventDefault();
@@ -383,6 +400,12 @@
     /* Only apply defaults to elements without inline styles */
     blockquote:not([style]) { margin: 0.5em 0; padding-left: 1em; border-left: 3px solid #e5e7eb; color: #6b7280; }
     pre:not([style]) { background: #f3f4f6; padding: 0.5em; border-radius: 4px; overflow-x: auto; }
+    .${QUOTE_TOGGLE_CLASS} {
+      display: inline-flex; align-items: center; margin: 8px 0; padding: 0 8px; height: 14px;
+      border: 0; border-radius: 7px; background: #e8eaed; color: #5f6368;
+      font-size: 9px; line-height: 1; letter-spacing: 1px; cursor: pointer;
+    }
+    .${QUOTE_TOGGLE_CLASS}:hover { background: #dadce0; color: #202124; }
     /* Remove table/td defaults that conflict with email layouts */
   </sty` + `le>
 </head>
@@ -440,6 +463,8 @@ ${processedHtml}
 
     if (event.data?.type === 'iframe-height' && iframeElement) {
       iframeElement.style.height = `${event.data.height + 20}px`
+    } else if (event.data?.type === 'quote-toggle') {
+      quoteExpanded = !!event.data.expanded
     } else if (event.data?.type === 'iframe-ready') {
       iframeReady = true
     } else if (event.data?.type === 'open-link') {
@@ -519,7 +544,7 @@ ${processedHtml}
   export function getPrintableHtml(): Promise<string> {
     const win = iframeElement?.contentWindow
     if (!win) {
-      return Promise.resolve(bodyText ? `<div style="white-space:pre-wrap">${linkifyText(bodyText)}</div>` : '')
+      return Promise.resolve(bodyText ? `<div style="white-space:pre-wrap">${linkifyText(quoteExpanded ? bodyText : splitText.main)}</div>` : '')
     }
     return new Promise<string>((resolve) => {
       let settled = false
@@ -587,6 +612,7 @@ ${processedHtml}
     lastSentMessageId = null
     inlineAttachments = {}
     imagesBlocked = true
+    quoteExpanded = false
 
     if (!hasImages) return
 
@@ -788,7 +814,7 @@ ${processedHtml}
     ></iframe>
   {:else if bodyText}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="whitespace-pre-wrap font-sans text-sm text-foreground bg-muted/30 rounded-md p-4"
+    <div class="font-sans text-sm text-foreground bg-muted/30 rounded-md p-4"
       onkeydown={(e) => { if (e.key === 'Enter') { const link = (e.target as HTMLElement).closest('a'); if (link?.href) { e.preventDefault(); handleLinkClick(link.href) } } }}
       onclick={(e) => {
         const link = (e.target as HTMLElement).closest('a')
@@ -798,7 +824,23 @@ ${processedHtml}
       }}
     >
       <!-- eslint-disable-next-line svelte/no-at-html-tags -- linkifyText escapes user content; only injects safe <a> tags around URLs -->
-      {@html linkifyText(bodyText)}
+      <div class="whitespace-pre-wrap">{@html linkifyText(splitText.main)}</div>
+      {#if splitText.quoted}
+        <div>
+          <button
+            type="button"
+            class="inline-flex items-center h-3.5 px-2 my-2 rounded-full bg-muted hover:bg-muted-foreground/20 text-muted-foreground hover:text-foreground text-[9px] leading-none tracking-wider transition-colors"
+            title={$_('viewer.toggleQuoted')}
+            aria-label={$_('viewer.toggleQuoted')}
+            aria-expanded={quoteExpanded}
+            onclick={(e) => { e.stopPropagation(); quoteExpanded = !quoteExpanded }}
+          >•••</button>
+        </div>
+        {#if quoteExpanded}
+          <!-- eslint-disable-next-line svelte/no-at-html-tags -- linkifyText escapes user content; only injects safe <a> tags around URLs -->
+          <div class="whitespace-pre-wrap text-muted-foreground">{@html linkifyText(splitText.quoted)}</div>
+        {/if}
+      {/if}
     </div>
   {:else}
     <p class="text-muted-foreground italic">{$_('viewer.noContent')}</p>

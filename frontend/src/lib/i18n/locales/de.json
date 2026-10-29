@@ -108,6 +108,7 @@
     "markAsNotSpam": "Als kein Spam markieren",
     "star": "Markieren",
     "removeStar": "Markierung entfernen",
+    "toggleQuoted": "Zitierten Text ein-/ausblenden",
     "markAsRead": "Als gelesen markieren",
     "markAsUnread": "Als ungelesen markieren",
     "expandAll": "Alle ausklappen",
