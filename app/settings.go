@@ -104,6 +104,16 @@ func (a *App) SetAlwaysShowMessageCheckbox(enabled bool) error {
 	return a.settingsStore.SetAlwaysShowMessageCheckbox(enabled)
 }
 
+// GetCheckboxToggleButton returns whether message list checkboxes are revealed by a toolbar toggle
+func (a *App) GetCheckboxToggleButton() (bool, error) {
+	return a.settingsStore.GetCheckboxToggleButton()
+}
+
+// SetCheckboxToggleButton enables or disables the toolbar checkbox toggle
+func (a *App) SetCheckboxToggleButton(enabled bool) error {
+	return a.settingsStore.SetCheckboxToggleButton(enabled)
+}
+
 // GetShowMessageListCircles returns whether colored sender circles are shown in the message list
 func (a *App) GetShowMessageListCircles() (bool, error) {
 	return a.settingsStore.GetShowMessageListCircles()

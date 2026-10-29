@@ -20,7 +20,7 @@
   import MessageContextMenu from '$lib/components/common/MessageContextMenu.svelte'
   import Avatar from '$lib/components/kit/Avatar.svelte'
   import { toasts } from '$lib/stores/toast'
-  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox } from '$lib/stores/settings.svelte'
+  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox, getCheckboxToggleButton, getCheckboxesRevealed } from '$lib/stores/settings.svelte'
   import { getLayoutMode } from '$lib/stores/layout.svelte'
   import { contactPhotos } from '$lib/stores/contactPhotos.svelte'
 
@@ -171,6 +171,15 @@
       compact: 'w-0 h-5 -mr-3 group-hover:w-5 group-hover:mr-0',
       standard: 'w-0 h-6 -mr-4 group-hover:w-6 group-hover:mr-0',
       large: 'w-0 h-7 -mr-5 group-hover:w-7 group-hover:mr-0',
+    },
+    // Toolbar-toggle mode ("Checkbox toggle button" setting ON): same width
+    // clip as checkboxHidden but without the hover reveal — only the toolbar
+    // button (or checking the row) opens the column
+    checkboxCollapsed: {
+      micro: 'w-0 h-4 -mr-2',
+      compact: 'w-0 h-5 -mr-3',
+      standard: 'w-0 h-6 -mr-4',
+      large: 'w-0 h-7 -mr-5',
     },
     // Legacy always-reserved column ("Always show checkbox" setting ON):
     // opacity fade instead of width reveal — invisible until hover on
@@ -506,11 +515,15 @@
     <!-- Checkbox column. Setting OFF (default): hidden (width-clipped) until
          row hover on desktop, revealed while checked, toggled by swipe on
          narrow/touch. Setting ON: legacy always-reserved column with opacity
-         fade (invisible until hover on desktop, faint on narrow). -->
+         fade (invisible until hover on desktop, faint on narrow).
+         Toolbar-toggle mode: collapsed until the list toolbar button reveals
+         every row's checkbox, sliding the row content over. -->
     <div
-      class="flex-shrink-0 flex items-center justify-center self-center {getAlwaysShowMessageCheckbox()
-        ? `${densityClasses.checkbox[density]} transition-opacity duration-200 ${checked ? 'opacity-100' : densityClasses.checkboxAlways}`
-        : `overflow-hidden transition-all duration-200 ${checked ? densityClasses.checkbox[density] : densityClasses.checkboxHidden[density]}`}"
+      class="flex-shrink-0 flex items-center justify-center self-center {getCheckboxToggleButton()
+        ? `overflow-hidden transition-all duration-200 ${checked || getCheckboxesRevealed() ? densityClasses.checkbox[density] : densityClasses.checkboxCollapsed[density]}`
+        : getAlwaysShowMessageCheckbox()
+          ? `${densityClasses.checkbox[density]} transition-opacity duration-200 ${checked ? 'opacity-100' : densityClasses.checkboxAlways}`
+          : `overflow-hidden transition-all duration-200 ${checked ? densityClasses.checkbox[density] : densityClasses.checkboxHidden[density]}`}"
     >
       <button
         class="{densityClasses.checkboxInner[density]} rounded border {checked

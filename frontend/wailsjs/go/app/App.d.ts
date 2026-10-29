@@ -229,6 +229,8 @@ export function GetAutoDetectedFolders(arg1:string):Promise<Record<string, strin
 
 export function GetAutostart():Promise<boolean>;
 
+export function GetCheckboxToggleButton():Promise<boolean>;
+
 export function GetComposerFormat():Promise<string>;
 
 export function GetComposerMode():Promise<string>;
@@ -568,6 +570,8 @@ export function SetAlwaysLoadImages(arg1:boolean):Promise<void>;
 export function SetAlwaysShowMessageCheckbox(arg1:boolean):Promise<void>;
 
 export function SetAutostart(arg1:boolean):Promise<void>;
+
+export function SetCheckboxToggleButton(arg1:boolean):Promise<void>;
 
 export function SetComposerFormat(arg1:string):Promise<void>;
 

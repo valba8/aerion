@@ -2,7 +2,7 @@
 // Provides reactive state for application settings
 
 // @ts-ignore - wailsjs path
-import { GetMessageListDensity, GetMessageListSortOrder, GetThemeMode, GetShowTitleBar, GetRunBackground, GetStartHidden, GetAutostart, GetLanguage, GetComposerMode, GetMailtoMode, GetComposerFormat, GetNativeTitleBar, GetAlwaysLoadImages, GetDarkMailContent, GetDarkComposerBody, GetAccentBarUnread, GetAccentUnreadStyle, GetShowMessageListCircles, GetShowMessageListProfilePics, GetAlwaysShowMessageCheckbox, GetShowViewerCircles, GetSpellcheckEnabled, GetSpellcheckLanguages, GetSpellcheckCustomWords } from '../../../wailsjs/go/app/App'
+import { GetMessageListDensity, GetMessageListSortOrder, GetThemeMode, GetShowTitleBar, GetRunBackground, GetStartHidden, GetAutostart, GetLanguage, GetComposerMode, GetMailtoMode, GetComposerFormat, GetNativeTitleBar, GetAlwaysLoadImages, GetDarkMailContent, GetDarkComposerBody, GetAccentBarUnread, GetAccentUnreadStyle, GetShowMessageListCircles, GetShowMessageListProfilePics, GetAlwaysShowMessageCheckbox, GetCheckboxToggleButton, GetShowViewerCircles, GetSpellcheckEnabled, GetSpellcheckLanguages, GetSpellcheckCustomWords } from '../../../wailsjs/go/app/App'
 import { setLocale as setI18nLocale, locale as i18nLocale } from '$lib/i18n'
 import { get } from 'svelte/store'
 import { loadDateFnsLocale, getDateFnsLocale } from '$lib/i18n/dateFnsLocale'
@@ -47,6 +47,9 @@ let accentUnreadStyle = $state<string>('dot')
 let showMessageListCircles = $state<boolean>(true)
 let showMessageListProfilePics = $state<boolean>(false)
 let alwaysShowMessageCheckbox = $state<boolean>(false)
+let checkboxToggleButton = $state<boolean>(false)
+// Session-only: whether the toolbar toggle currently reveals the checkboxes
+let checkboxesRevealed = $state<boolean>(false)
 let showViewerCircles = $state<boolean>(true)
 
 // Getter functions to access the state
@@ -140,6 +143,14 @@ export function getShowMessageListProfilePics(): boolean {
 
 export function getAlwaysShowMessageCheckbox(): boolean {
   return alwaysShowMessageCheckbox
+}
+
+export function getCheckboxToggleButton(): boolean {
+  return checkboxToggleButton
+}
+
+export function getCheckboxesRevealed(): boolean {
+  return checkboxesRevealed
 }
 
 export function getShowViewerCircles(): boolean {
@@ -247,6 +258,15 @@ export function setAlwaysShowMessageCheckbox(v: boolean) {
   alwaysShowMessageCheckbox = v
 }
 
+export function setCheckboxToggleButton(v: boolean) {
+  checkboxToggleButton = v
+  if (!v) checkboxesRevealed = false
+}
+
+export function setCheckboxesRevealed(v: boolean) {
+  checkboxesRevealed = v
+}
+
 export function setShowViewerCircles(v: boolean) {
   showViewerCircles = v
 }
@@ -254,7 +274,7 @@ export function setShowViewerCircles(v: boolean) {
 // Load settings from backend (call on app startup)
 export async function loadSettings(): Promise<ThemeMode> {
   try {
-    const [density, sortOrder, theme, titleBar, runBg, startHid, autoSt, lang, compMode, mailMode, compFormat, nativeTB, alwaysImages, darkMail, darkComposer, accentBar, accentStyle, listCircles, listProfilePics, alwaysCheckbox, viewerCircles, scEnabled, scLangs, scWords] = await Promise.all([
+    const [density, sortOrder, theme, titleBar, runBg, startHid, autoSt, lang, compMode, mailMode, compFormat, nativeTB, alwaysImages, darkMail, darkComposer, accentBar, accentStyle, listCircles, listProfilePics, alwaysCheckbox, checkboxToggle, viewerCircles, scEnabled, scLangs, scWords] = await Promise.all([
       GetMessageListDensity(),
       GetMessageListSortOrder(),
       GetThemeMode(),
@@ -275,6 +295,7 @@ export async function loadSettings(): Promise<ThemeMode> {
       GetShowMessageListCircles(),
       GetShowMessageListProfilePics(),
       GetAlwaysShowMessageCheckbox(),
+      GetCheckboxToggleButton(),
       GetShowViewerCircles(),
       GetSpellcheckEnabled(),
       GetSpellcheckLanguages(),
@@ -299,6 +320,7 @@ export async function loadSettings(): Promise<ThemeMode> {
     showMessageListCircles = listCircles ?? true
     showMessageListProfilePics = listProfilePics ?? false
     alwaysShowMessageCheckbox = alwaysCheckbox ?? false
+    checkboxToggleButton = checkboxToggle ?? false
     showViewerCircles = viewerCircles ?? true
     spellcheckEnabled = scEnabled ?? true
     spellcheckLanguages = scLangs ?? []

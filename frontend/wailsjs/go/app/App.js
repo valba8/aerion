@@ -422,6 +422,10 @@ export function GetAutostart() {
   return window['go']['app']['App']['GetAutostart']();
 }
 
+export function GetCheckboxToggleButton() {
+  return window['go']['app']['App']['GetCheckboxToggleButton']();
+}
+
 export function GetComposerFormat() {
   return window['go']['app']['App']['GetComposerFormat']();
 }
@@ -1100,6 +1104,10 @@ export function SetAlwaysShowMessageCheckbox(arg1) {
 
 export function SetAutostart(arg1) {
   return window['go']['app']['App']['SetAutostart'](arg1);
+}
+
+export function SetCheckboxToggleButton(arg1) {
+  return window['go']['app']['App']['SetCheckboxToggleButton'](arg1);
 }
 
 export function SetComposerFormat(arg1) {

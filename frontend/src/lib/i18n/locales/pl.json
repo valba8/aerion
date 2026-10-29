@@ -74,6 +74,8 @@
     "tryAgain": "Spróbuj ponownie",
     "unread": "({count} nieprzeczytanych)",
     "clearSearch": "Wyczyść wyszukiwanie",
+    "showCheckboxes": "Pokaż pola wyboru",
+    "hideCheckboxes": "Ukryj pola wyboru",
     "noResults": "Brak wyników dla \"{query}\"",
     "indexBuilding": "Indeks wyszukiwania jest wciąż budowany...",
     "foundResults": "Znaleziono {count} wynik(ów) dla \"{query}\"",
@@ -456,6 +458,8 @@
     "alwaysLoadImagesWarningDescription": "Automatyczne ładowanie obrazów zdalnych może ujawnić Twój adres IP, potwierdzić, gdy przeczytasz e-mail i umożliwić śledzenie przez nadawców. Czy na pewno chcesz wyłączyć blokowanie obrazów?",
     "alwaysShowCheckbox": "Zawsze pokazuj pole wyboru",
     "alwaysShowCheckboxHelp": "Pokazuj pole wyboru nawet gdy nie ma wiadomości",
+    "checkboxToggleButton": "Pokazuj pola wyboru przyciskiem",
+    "checkboxToggleButtonHelp": "Ukrywa pola wyboru i dodaje do paska listy wiadomości przycisk, który je pokazuje lub ukrywa.",
     "disable": "Wyłącz"
   },
   "settingsAccounts": {

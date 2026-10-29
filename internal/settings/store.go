@@ -39,6 +39,7 @@ const (
 	KeyShowMessageListCircles     = "show_message_list_circles"
 	KeyShowMessageListProfilePics = "show_message_list_profile_pics" // render contact photos in the message-list avatar slot (default off)
 	KeyAlwaysShowMessageCheckbox  = "always_show_message_checkbox"   // reserve a fixed checkbox column instead of the hover/swipe slide-reveal (default off)
+	KeyCheckboxToggleButton       = "checkbox_toggle_button"         // hide checkboxes until shown with a message list toolbar button (default off)
 	KeyShowViewerCircles          = "show_viewer_circles"
 	KeyLastSeenVersion            = "last_seen_version"       // for "What's new in this version" launch dialog
 	KeyOAuthWarningDisabled       = "oauth_warning_disabled"  // user toggled "Don't show again" on the missing-OAuth-creds launch warning
@@ -463,6 +464,25 @@ func (s *Store) SetAlwaysShowMessageCheckbox(enabled bool) error {
 		v = "true"
 	}
 	return s.Set(KeyAlwaysShowMessageCheckbox, v)
+}
+
+// GetCheckboxToggleButton returns whether message list checkboxes stay hidden
+// until revealed with the toolbar toggle button. Default: false.
+func (s *Store) GetCheckboxToggleButton() (bool, error) {
+	value, err := s.Get(KeyCheckboxToggleButton)
+	if err != nil {
+		return false, err
+	}
+	return value == "true", nil
+}
+
+// SetCheckboxToggleButton enables or disables the toolbar checkbox toggle
+func (s *Store) SetCheckboxToggleButton(enabled bool) error {
+	v := "false"
+	if enabled {
+		v = "true"
+	}
+	return s.Set(KeyCheckboxToggleButton, v)
 }
 
 // GetShowViewerCircles returns whether colored sender circles

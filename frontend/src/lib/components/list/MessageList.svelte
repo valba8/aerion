@@ -26,7 +26,7 @@
   import { message } from '../../../../wailsjs/go/models'
   // @ts-ignore - wailsjs runtime
   import { EventsOn, EventsOff } from '../../../../wailsjs/runtime/runtime'
-  import { getMessageListDensity, getMessageListSortOrder, setMessageListSortOrder, getShowMessageListProfilePics } from '$lib/stores/settings.svelte'
+  import { getMessageListDensity, getMessageListSortOrder, setMessageListSortOrder, getShowMessageListProfilePics, getCheckboxToggleButton, getCheckboxesRevealed, setCheckboxesRevealed } from '$lib/stores/settings.svelte'
   import { contactPhotos } from '$lib/stores/contactPhotos.svelte'
   import { accountStore } from '$lib/stores/accounts.svelte'
   import { getLayoutMode, hideViewer } from '$lib/stores/layout.svelte'
@@ -415,6 +415,14 @@
   function clearSelection() {
     checkedThreadIds = new Set()
     lastClickedIndex = null
+  }
+
+  // Toolbar toggle (when enabled in settings): reveal/hide the row checkboxes.
+  // Hiding them drops the selection so no hidden rows stay checked.
+  function toggleCheckboxes() {
+    const reveal = !getCheckboxesRevealed()
+    setCheckboxesRevealed(reveal)
+    if (!reveal) clearSelection()
   }
 
   // Check if viewing unified inbox
@@ -1463,6 +1471,19 @@
       {/if}
     </div>
     <div class="flex items-center gap-1">
+      {#if getCheckboxToggleButton()}
+        <button
+          class="p-2 rounded-md hover:bg-muted transition-colors {getCheckboxesRevealed() ? 'bg-muted' : ''}"
+          title={getCheckboxesRevealed() ? $_('messageList.hideCheckboxes') : $_('messageList.showCheckboxes')}
+          aria-pressed={getCheckboxesRevealed()}
+          onclick={toggleCheckboxes}
+        >
+          <Icon
+            icon={getCheckboxesRevealed() ? 'mdi:checkbox-multiple-marked-outline' : 'mdi:checkbox-multiple-blank-outline'}
+            class="w-5 h-5 {getCheckboxesRevealed() ? 'text-primary' : 'text-muted-foreground'}"
+          />
+        </button>
+      {/if}
       {#if syncing}
         <!-- While syncing, show spinning icon that cancels on click -->
         <button

@@ -31,6 +31,7 @@
     showMessageListCircles: boolean
     showMessageListProfilePics: boolean
     alwaysShowMessageCheckbox: boolean
+    checkboxToggleButton: boolean
     showViewerCircles: boolean
     darkMailContent: boolean
     darkComposerBody: boolean
@@ -59,6 +60,7 @@
     showMessageListCircles = $bindable(),
     showMessageListProfilePics = $bindable(),
     alwaysShowMessageCheckbox = $bindable(),
+    checkboxToggleButton = $bindable(),
     showViewerCircles = $bindable(),
     darkMailContent = $bindable(),
     darkComposerBody = $bindable(),
@@ -309,6 +311,25 @@
         <Switch
           id="always-show-message-checkbox"
           bind:checked={alwaysShowMessageCheckbox}
+          onCheckedChange={(v) => { if (v) checkboxToggleButton = false }}
+        />
+      </div>
+    </div>
+
+    <!-- Checkbox toggle button — hide checkboxes until revealed from the
+         message list toolbar (mutually exclusive with the fixed column) -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <Label for="checkbox-toggle-button">{$_('settingsGeneral.checkboxToggleButton')}</Label>
+          <p class="text-xs text-muted-foreground">
+            {$_('settingsGeneral.checkboxToggleButtonHelp')}
+          </p>
+        </div>
+        <Switch
+          id="checkbox-toggle-button"
+          bind:checked={checkboxToggleButton}
+          onCheckedChange={(v) => { if (v) alwaysShowMessageCheckbox = false }}
         />
       </div>
     </div>
