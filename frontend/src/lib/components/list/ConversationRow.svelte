@@ -50,6 +50,7 @@
     onActionComplete?: (autoSelectNext?: boolean) => void
     onReply?: (mode: 'reply' | 'reply-all' | 'forward', messageId: string) => void
     onDelete?: (messageIds: string[]) => void  // Swipe-left delete (routes through MessageList.requestDelete)
+    onArchive?: (messageIds: string[]) => void // Hover archive action (routes through MessageList.requestArchive)
   }
 
   let {
@@ -78,6 +79,7 @@
     onActionComplete,
     onReply,
     onDelete,
+    onArchive,
   }: Props = $props()
 
   // Check if we're in search mode (have highlighted content)
@@ -138,6 +140,13 @@
       large: 'text-base',
     },
     icon: {
+      micro: 'w-3 h-3',
+      compact: 'w-3.5 h-3.5',
+      standard: 'w-4 h-4',
+      large: 'w-5 h-5',
+    },
+    // Hover archive/delete actions under the star
+    actionIcon: {
       micro: 'w-3 h-3',
       compact: 'w-3.5 h-3.5',
       standard: 'w-4 h-4',
@@ -251,6 +260,17 @@
       console.error('Star toggle failed:', err)
       toasts.error($_('toast.failedToUpdateStar'))
     }
+  }
+
+  // Hover actions act on this row only, whatever is checked
+  function handleArchiveClick(e: MouseEvent) {
+    e.stopPropagation()
+    onArchive?.(ownMessageIds)
+  }
+
+  function handleDeleteClick(e: MouseEvent) {
+    e.stopPropagation()
+    onDelete?.(ownMessageIds)
   }
 
   function handleCheckboxClick(e: MouseEvent) {
@@ -651,16 +671,42 @@
       {/if}
     </div>
 
-    <!-- Star -->
-    <button
-      class="flex-shrink-0 p-1 -mr-1 rounded hover:bg-muted transition-colors duration-200"
-      onclick={handleStarClick}
-    >
-      <Icon
-        icon={conversation.isStarred ? 'mdi:star' : 'mdi:star-outline'}
-        class="{densityClasses.starIcon[density]} {conversation.isStarred ? 'text-yellow-500' : 'text-muted-foreground'}"
-      />
-    </button>
+    <!-- Star, with archive/delete revealed under it on row hover (desktop
+         only — narrow layout has swipe-to-delete). Opacity, not display, so
+         the row never reflows when the actions appear. -->
+    <div class="flex-shrink-0 -mr-1 flex flex-col items-end gap-0.5">
+      <button
+        class="p-1 rounded hover:bg-muted transition-colors duration-200"
+        onclick={handleStarClick}
+      >
+        <Icon
+          icon={conversation.isStarred ? 'mdi:star' : 'mdi:star-outline'}
+          class="{densityClasses.starIcon[density]} {conversation.isStarred ? 'text-yellow-500' : 'text-muted-foreground'}"
+        />
+      </button>
+      {#if onArchive || onDelete}
+        <div class="flex items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto transition-opacity duration-200 max-[767px]:hidden">
+          {#if onArchive}
+            <button
+              class="p-0.5 rounded hover:bg-muted transition-colors"
+              title={$_('viewer.archive')}
+              onclick={handleArchiveClick}
+            >
+              <Icon icon="mdi:archive-outline" class="{densityClasses.actionIcon[density]} text-muted-foreground" />
+            </button>
+          {/if}
+          {#if onDelete}
+            <button
+              class="p-0.5 rounded hover:bg-muted transition-colors"
+              title={$_(folderType === 'trash' ? 'viewer.deletePermanently' : 'viewer.delete')}
+              onclick={handleDeleteClick}
+            >
+              <Icon icon={folderType === 'trash' ? 'mdi:delete-forever' : 'mdi:delete-outline'} class="{densityClasses.actionIcon[density]} text-muted-foreground" />
+            </button>
+          {/if}
+        </div>
+      {/if}
+    </div>
   </div>
 </MessageContextMenu>
 

@@ -18,7 +18,7 @@
   import { cn } from '$lib/utils'
   import { Button } from '$lib/components/ui/button'
   // @ts-ignore - wailsjs bindings
-  import { GetConversations, GetConversationCount, SyncFolder, ForceSyncFolder, CancelFolderSync, SetMessageListSortOrder, GetUnifiedInboxConversations, GetUnifiedInboxCount, SearchConversations, SearchUnifiedInbox, GetSearchCount, GetSearchCountUnifiedInbox, GetFTSIndexStatus, IsFTSIndexing, Trash, DeletePermanently, EmptyTrash, EmptySpam, Undo, IMAPSearchFolder, FetchServerMessage } from '../../../../wailsjs/go/app/App'
+  import { GetConversations, GetConversationCount, SyncFolder, ForceSyncFolder, CancelFolderSync, SetMessageListSortOrder, GetUnifiedInboxConversations, GetUnifiedInboxCount, SearchConversations, SearchUnifiedInbox, GetSearchCount, GetSearchCountUnifiedInbox, GetFTSIndexStatus, IsFTSIndexing, Archive, Trash, DeletePermanently, EmptyTrash, EmptySpam, Undo, IMAPSearchFolder, FetchServerMessage } from '../../../../wailsjs/go/app/App'
   import { toasts } from '$lib/stores/toast'
   import { _ } from '$lib/i18n'
   import { ConfirmDialog } from '$lib/components/ui/confirm-dialog'
@@ -1393,6 +1393,20 @@
       })
   }
 
+  // Archive from a row's hover action — same flow as requestDelete
+  function requestArchive(messageIds: string[]) {
+    Archive(messageIds)
+      .then(() => {
+        toasts.success($_('toast.archived'), [{ label: $_('common.undo'), onClick: handleUndo }])
+        handleActionComplete(true)
+        clearChecked()
+      })
+      .catch((err) => {
+        console.error('Archive failed:', err)
+        toasts.error($_('toast.failedToArchive'))
+      })
+  }
+
   // Scroll to a specific index in the list
   function scrollToIndex(index: number) {
     if (!listContainerRef) return
@@ -1699,6 +1713,7 @@
               onActionComplete={handleActionComplete}
               {onReply}
               onDelete={(ids) => requestDelete(ids)}
+              onArchive={requestArchive}
             />
           {/each}
 
@@ -1776,6 +1791,7 @@
             onActionComplete={handleActionComplete}
             {onReply}
             onDelete={(ids) => requestDelete(ids)}
+            onArchive={requestArchive}
           />
         {/each}
 
@@ -1849,6 +1865,7 @@
           onActionComplete={handleActionComplete}
           {onReply}
           onDelete={(ids) => requestDelete(ids)}
+          onArchive={requestArchive}
         />
       {/each}
 
