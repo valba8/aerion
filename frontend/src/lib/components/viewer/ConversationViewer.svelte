@@ -677,16 +677,16 @@
   }
 
   function expandAll() {
-    if (conversation?.messages) {
-      expandedMessages = new Set(conversation.messages.map(m => m.id))
-    }
+    if (!conversation?.messages) return
+    // Same read-receipt handling as expanding a message by hand
+    conversation.messages
+      .filter(m => !expandedMessages.has(m.id))
+      .forEach(m => handleMessageExpanded(m))
+    expandedMessages = new Set(conversation.messages.map(m => m.id))
   }
 
   function collapseAll() {
-    // Keep only the last message expanded
-    if (conversation?.messages && conversation.messages.length > 0) {
-      expandedMessages = new Set([conversation.messages[conversation.messages.length - 1].id])
-    }
+    expandedMessages = new Set()
   }
 
   function formatDate(dateStr: any): string {
