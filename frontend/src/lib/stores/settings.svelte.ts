@@ -2,7 +2,7 @@
 // Provides reactive state for application settings
 
 // @ts-ignore - wailsjs path
-import { GetMessageListDensity, GetMessageListSortOrder, GetThemeMode, GetShowTitleBar, GetRunBackground, GetStartHidden, GetAutostart, GetLanguage, GetComposerMode, GetMailtoMode, GetComposerFormat, GetNativeTitleBar, GetAlwaysLoadImages, GetDarkMailContent, GetDarkComposerBody, GetAccentBarUnread, GetAccentUnreadStyle, GetShowMessageListCircles, GetShowMessageListProfilePics, GetAlwaysShowMessageCheckbox, GetShowViewerCircles, GetSpellcheckEnabled, GetSpellcheckLanguages, GetSpellcheckCustomWords } from '../../../wailsjs/go/app/App'
+import { GetMessageListDensity, GetMessageListSortOrder, GetThemeMode, GetShowTitleBar, GetRunBackground, GetStartHidden, GetAutostart, GetLanguage, GetComposerMode, GetMailtoMode, GetComposerFormat, GetNativeTitleBar, GetAlwaysLoadImages, GetDarkMailContent, GetDarkComposerBody, GetAccentBarUnread, GetAccentUnreadStyle, GetShowMessageListCircles, GetRowHoverActions, GetShowMessageListProfilePics, GetAlwaysShowMessageCheckbox, GetShowViewerCircles, GetSpellcheckEnabled, GetSpellcheckLanguages, GetSpellcheckCustomWords } from '../../../wailsjs/go/app/App'
 import { setLocale as setI18nLocale, locale as i18nLocale } from '$lib/i18n'
 import { get } from 'svelte/store'
 import { loadDateFnsLocale, getDateFnsLocale } from '$lib/i18n/dateFnsLocale'
@@ -45,6 +45,7 @@ let darkComposerBody = $state<boolean>(false)
 let accentBarUnread = $state<boolean>(false)
 let accentUnreadStyle = $state<string>('dot')
 let showMessageListCircles = $state<boolean>(true)
+let rowHoverActions = $state<boolean>(false)
 let showMessageListProfilePics = $state<boolean>(false)
 let alwaysShowMessageCheckbox = $state<boolean>(false)
 let showViewerCircles = $state<boolean>(true)
@@ -132,6 +133,10 @@ export function getAccentUnreadStyle(): string {
 
 export function getShowMessageListCircles(): boolean {
   return showMessageListCircles
+}
+
+export function getRowHoverActions(): boolean {
+  return rowHoverActions
 }
 
 export function getShowMessageListProfilePics(): boolean {
@@ -239,6 +244,10 @@ export function setShowMessageListCircles(v: boolean) {
   showMessageListCircles = v
 }
 
+export function setRowHoverActions(v: boolean) {
+  rowHoverActions = v
+}
+
 export function setShowMessageListProfilePics(v: boolean) {
   showMessageListProfilePics = v
 }
@@ -254,7 +263,7 @@ export function setShowViewerCircles(v: boolean) {
 // Load settings from backend (call on app startup)
 export async function loadSettings(): Promise<ThemeMode> {
   try {
-    const [density, sortOrder, theme, titleBar, runBg, startHid, autoSt, lang, compMode, mailMode, compFormat, nativeTB, alwaysImages, darkMail, darkComposer, accentBar, accentStyle, listCircles, listProfilePics, alwaysCheckbox, viewerCircles, scEnabled, scLangs, scWords] = await Promise.all([
+    const [density, sortOrder, theme, titleBar, runBg, startHid, autoSt, lang, compMode, mailMode, compFormat, nativeTB, alwaysImages, darkMail, darkComposer, accentBar, accentStyle, listCircles, hoverActions, listProfilePics, alwaysCheckbox, viewerCircles, scEnabled, scLangs, scWords] = await Promise.all([
       GetMessageListDensity(),
       GetMessageListSortOrder(),
       GetThemeMode(),
@@ -273,6 +282,7 @@ export async function loadSettings(): Promise<ThemeMode> {
       GetAccentBarUnread(),
       GetAccentUnreadStyle(),
       GetShowMessageListCircles(),
+      GetRowHoverActions(),
       GetShowMessageListProfilePics(),
       GetAlwaysShowMessageCheckbox(),
       GetShowViewerCircles(),
@@ -297,6 +307,7 @@ export async function loadSettings(): Promise<ThemeMode> {
     accentBarUnread = accentBar ?? false
     accentUnreadStyle = accentStyle || 'dot'
     showMessageListCircles = listCircles ?? true
+    rowHoverActions = hoverActions ?? false
     showMessageListProfilePics = listProfilePics ?? false
     alwaysShowMessageCheckbox = alwaysCheckbox ?? false
     showViewerCircles = viewerCircles ?? true

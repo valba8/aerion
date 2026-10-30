@@ -29,6 +29,7 @@
     accentBarUnread: boolean
     accentUnreadStyle: string
     showMessageListCircles: boolean
+    rowHoverActions: boolean
     showMessageListProfilePics: boolean
     alwaysShowMessageCheckbox: boolean
     showViewerCircles: boolean
@@ -57,6 +58,7 @@
     accentBarUnread = $bindable(),
     accentUnreadStyle = $bindable(),
     showMessageListCircles = $bindable(),
+    rowHoverActions = $bindable(),
     showMessageListProfilePics = $bindable(),
     alwaysShowMessageCheckbox = $bindable(),
     showViewerCircles = $bindable(),
@@ -357,6 +359,22 @@
         <Switch
           id="show-message-list-profile-pics"
           bind:checked={showMessageListProfilePics}
+        />
+      </div>
+    </div>
+
+    <!-- Show archive/delete buttons under the star when hovering a message list row (default off) -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <Label for="row-hover-actions">{$_('settingsGeneral.rowHoverActions')}</Label>
+          <p class="text-xs text-muted-foreground">
+            {$_('settingsGeneral.rowHoverActionsHelp')}
+          </p>
+        </div>
+        <Switch
+          id="row-hover-actions"
+          bind:checked={rowHoverActions}
         />
       </div>
     </div>

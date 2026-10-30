@@ -20,7 +20,7 @@
   import MessageContextMenu from '$lib/components/common/MessageContextMenu.svelte'
   import Avatar from '$lib/components/kit/Avatar.svelte'
   import { toasts } from '$lib/stores/toast'
-  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox } from '$lib/stores/settings.svelte'
+  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox, getRowHoverActions } from '$lib/stores/settings.svelte'
   import { getLayoutMode } from '$lib/stores/layout.svelte'
   import { contactPhotos } from '$lib/stores/contactPhotos.svelte'
 
@@ -671,8 +671,8 @@
       {/if}
     </div>
 
-    <!-- Star, with archive/delete revealed under it on row hover (desktop
-         only — narrow layout has swipe-to-delete). Opacity, not display, so
+    <!-- Star, with archive/delete revealed under it on row hover when the
+         setting is on (desktop only — narrow layout has swipe-to-delete). Opacity, not display, so
          the row never reflows when the actions appear. -->
     <div class="flex-shrink-0 -mr-1 flex flex-col items-end gap-0.5">
       <button
@@ -684,7 +684,7 @@
           class="{densityClasses.starIcon[density]} {conversation.isStarred ? 'text-yellow-500' : 'text-muted-foreground'}"
         />
       </button>
-      {#if onArchive || onDelete}
+      {#if getRowHoverActions() && (onArchive || onDelete)}
         <div class="flex items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto focus-within:opacity-100 focus-within:pointer-events-auto transition-opacity duration-200 max-[767px]:hidden">
           {#if onArchive}
             <button

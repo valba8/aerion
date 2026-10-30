@@ -401,6 +401,8 @@
     "messageListDensityHelp": "Dostosuj odstępy i rozmiar tekstu w liście wiadomości",
     "showMessageListCircles": "Pokaż kolorowe kółka na liście wiadomości",
     "showMessageListCirclesHelp": "Pokaż kolorowe kółka z inicjałami nadawcy na liście wiadomości",
+    "rowHoverActions": "Szybkie akcje po najechaniu",
+    "rowHoverActionsHelp": "Pokazuje małe przyciski Archiwizuj i Usuń pod gwiazdką po najechaniu na wiadomość na liście.",
     "showViewerCircles": "Pokaż kolorowe kółka w przeglądzie rozmowy",
     "showViewerCirclesHelp": "Pokaż kolorowe kółka z inicjałami nadawcy w przeglądzie rozmowy",
     "showMessageListProfilePics": "Zdjęcia profilowe na liście wiadomości",

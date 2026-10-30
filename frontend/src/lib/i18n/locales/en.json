@@ -401,6 +401,8 @@
     "messageListDensityHelp": "Adjust the spacing and text size in the message list",
     "showMessageListCircles": "Show colored circles in message list",
     "showMessageListCirclesHelp": "Show colored circles with sender initials in the message list",
+    "rowHoverActions": "Quick actions on hover",
+    "rowHoverActionsHelp": "Show small Archive and Delete buttons under the star when hovering a message in the list.",
     "showViewerCircles": "Show colored circles in conversation viewer",
     "showViewerCirclesHelp": "Show colored circles with sender initials in the conversation viewer",
     "showMessageListProfilePics": "Show contact photos in message list",

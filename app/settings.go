@@ -114,6 +114,16 @@ func (a *App) SetShowMessageListCircles(enabled bool) error {
 	return a.settingsStore.SetShowMessageListCircles(enabled)
 }
 
+// GetRowHoverActions returns whether archive/delete buttons appear when hovering a message list row
+func (a *App) GetRowHoverActions() (bool, error) {
+	return a.settingsStore.GetRowHoverActions()
+}
+
+// SetRowHoverActions sets whether archive/delete buttons appear when hovering a message list row
+func (a *App) SetRowHoverActions(enabled bool) error {
+	return a.settingsStore.SetRowHoverActions(enabled)
+}
+
 // GetShowViewerCircles returns whether colored sender circles are shown in the conversation viewer
 func (a *App) GetShowViewerCircles() (bool, error) {
 	return a.settingsStore.GetShowViewerCircles()

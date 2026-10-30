@@ -401,6 +401,8 @@
     "messageListDensityHelp": "Juster tettheten og størrelsen av meldingslisten",
     "showMessageListCircles": "Vis fargerike sirkler i meldingslisten",
     "showMessageListCirclesHelp": "Vis fargerike sirkler med avsenderen sine initialer i meldingslisten",
+    "rowHoverActions": "Hurtighandlinger ved peking",
+    "rowHoverActionsHelp": "Viser små knapper for Arkiver og Slett under stjernen når du holder pekeren over en melding i listen.",
     "showViewerCircles": "Vis fargerike sirkler i samtalevisningen",
     "showViewerCirclesHelp": "Vis fargerike sirkler med avsenderen sine initialer i samtalevisningen",
     "showMessageListProfilePics": "Vis kontaktbilder i meldingslisten",

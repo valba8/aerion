@@ -401,6 +401,8 @@
     "messageListDensityHelp": "メッセージ一覧の間隔と文字サイズを調整します",
     "showMessageListCircles": "メッセージ一覧に色付きの円を表示",
     "showMessageListCirclesHelp": "メッセージ一覧に送信者のイニシャルの色付きの円を表示します",
+    "rowHoverActions": "ホバー時のクイック操作",
+    "rowHoverActionsHelp": "一覧のメッセージにマウスを重ねると、星の下に小さな「アーカイブ」と「削除」ボタンを表示します。",
     "showViewerCircles": "会話ビューアーに色付きの円を表示",
     "showViewerCirclesHelp": "会話ビューアーに送信者のイニシャルの色付きの円を表示します",
     "showMessageListProfilePics": "メッセージ一覧に連絡先の写真を表示",

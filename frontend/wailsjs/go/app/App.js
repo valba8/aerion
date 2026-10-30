@@ -642,6 +642,10 @@ export function GetReadReceiptResponsePolicy() {
   return window['go']['app']['App']['GetReadReceiptResponsePolicy']();
 }
 
+export function GetRowHoverActions() {
+  return window['go']['app']['App']['GetRowHoverActions']();
+}
+
 export function GetRunBackground() {
   return window['go']['app']['App']['GetRunBackground']();
 }
@@ -1196,6 +1200,10 @@ export function SetPGPSignPolicy(arg1, arg2) {
 
 export function SetReadReceiptResponsePolicy(arg1) {
   return window['go']['app']['App']['SetReadReceiptResponsePolicy'](arg1);
+}
+
+export function SetRowHoverActions(arg1) {
+  return window['go']['app']['App']['SetRowHoverActions'](arg1);
 }
 
 export function SetRunBackground(arg1) {

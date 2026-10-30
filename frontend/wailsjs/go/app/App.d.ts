@@ -339,6 +339,8 @@ export function GetPendingMailto():Promise<app.MailtoData>;
 
 export function GetReadReceiptResponsePolicy():Promise<string>;
 
+export function GetRowHoverActions():Promise<boolean>;
+
 export function GetRunBackground():Promise<boolean>;
 
 export function GetSMIMECertificateForEmail(arg1:string,arg2:string):Promise<smime.Certificate>;
@@ -616,6 +618,8 @@ export function SetPGPEncryptPolicy(arg1:string,arg2:string):Promise<void>;
 export function SetPGPSignPolicy(arg1:string,arg2:string):Promise<void>;
 
 export function SetReadReceiptResponsePolicy(arg1:string):Promise<void>;
+
+export function SetRowHoverActions(arg1:boolean):Promise<void>;
 
 export function SetRunBackground(arg1:boolean):Promise<void>;
 

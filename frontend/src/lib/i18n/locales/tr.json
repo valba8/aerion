@@ -401,6 +401,8 @@
     "messageListDensityHelp": "İleti listesindeki aralıkları ve metin boyutunu ayarlayın",
     "showMessageListCircles": "İleti listesinde renkli daireleri göster",
     "showMessageListCirclesHelp": "İleti listesinde gönderen baş harflerini içeren renkli daireleri gösterin",
+    "rowHoverActions": "Üzerine gelince hızlı işlemler",
+    "rowHoverActionsHelp": "Listede bir iletinin üzerine gelindiğinde yıldızın altında küçük Arşivle ve Sil düğmeleri gösterir.",
     "showViewerCircles": "Konuşma görüntüleyicide renkli daireleri göster",
     "showViewerCirclesHelp": "Konuşma görüntüleyicide gönderen baş harflerini içeren renkli daireleri gösterin",
     "showMessageListProfilePics": "İleti listesinde kişi fotoğraflarını göster",

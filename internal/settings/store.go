@@ -37,6 +37,7 @@ const (
 	KeyAccentBarUnread            = "accent_bar_unread"
 	KeyAccentUnreadStyle          = "accent_unread_style" // "dot" | "glowdot" | "bar"; applies when accent_bar_unread is on
 	KeyShowMessageListCircles     = "show_message_list_circles"
+	KeyRowHoverActions            = "row_hover_actions"              // show archive/delete buttons under the star when hovering a message list row (default off)
 	KeyShowMessageListProfilePics = "show_message_list_profile_pics" // render contact photos in the message-list avatar slot (default off)
 	KeyAlwaysShowMessageCheckbox  = "always_show_message_checkbox"   // reserve a fixed checkbox column instead of the hover/swipe slide-reveal (default off)
 	KeyShowViewerCircles          = "show_viewer_circles"
@@ -423,6 +424,24 @@ func (s *Store) SetShowMessageListCircles(enabled bool) error {
 		v = "true"
 	}
 	return s.Set(KeyShowMessageListCircles, v)
+}
+
+// GetRowHoverActions returns whether archive/delete buttons appear when hovering a message list row. Default: false.
+func (s *Store) GetRowHoverActions() (bool, error) {
+	value, err := s.Get(KeyRowHoverActions)
+	if err != nil {
+		return false, err
+	}
+	return value == "true", nil
+}
+
+// SetRowHoverActions sets whether archive/delete buttons appear when hovering a message list row
+func (s *Store) SetRowHoverActions(enabled bool) error {
+	v := "false"
+	if enabled {
+		v = "true"
+	}
+	return s.Set(KeyRowHoverActions, v)
 }
 
 // GetShowMessageListProfilePics returns whether contact profile pictures are

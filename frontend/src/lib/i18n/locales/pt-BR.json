@@ -401,6 +401,8 @@
     "messageListDensityHelp": "Ajuste o espaçamento e o tamanho do texto na lista de mensagens",
     "showMessageListCircles": "Mostrar círculos coloridos na lista de mensagens",
     "showMessageListCirclesHelp": "Mostrar círculos coloridos com as iniciais do remetente na lista de mensagens",
+    "rowHoverActions": "Ações rápidas ao passar o mouse",
+    "rowHoverActionsHelp": "Mostra pequenos botões Arquivar e Excluir sob a estrela ao passar o mouse sobre uma mensagem da lista.",
     "showViewerCircles": "Mostrar círculos coloridos no visualizador de conversas",
     "showViewerCirclesHelp": "Mostrar círculos coloridos com as iniciais do remetente no visualizador de conversas",
     "showMessageListProfilePics": "Mostrar fotos dos contatos na lista de mensagens",

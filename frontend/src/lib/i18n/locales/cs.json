@@ -401,6 +401,8 @@
     "messageListDensityHelp": "Upravte rozestupy a velikost textu v seznamu zpráv",
     "showMessageListCircles": "Zobrazit barevné kroužky v seznamu zpráv",
     "showMessageListCirclesHelp": "Zobrazit barevné kroužky s iniciálami odesílatele v seznamu zpráv",
+    "rowHoverActions": "Rychlé akce při najetí myší",
+    "rowHoverActionsHelp": "Při najetí myší na zprávu v seznamu zobrazí pod hvězdičkou malá tlačítka Archivovat a Smazat.",
     "showMessageListProfilePics": "Zobrazit fotografie kontaktů v seznamu zpráv",
     "showMessageListProfilePicsHelp": "Zobrazit profilovou fotografii kontaktu (případně barevný kroužek) v seznamu zpráv. Vyžaduje „Zobrazit barevné kroužky v seznamu zpráv“.",
     "showViewerCircles": "Zobrazit barevné kroužky v náhledu konverzace",
