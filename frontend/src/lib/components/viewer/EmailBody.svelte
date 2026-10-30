@@ -9,7 +9,7 @@
   import * as DropdownMenu from '$lib/components/ui/dropdown-menu'
   import { _ } from '$lib/i18n'
   import { toasts } from '$lib/stores/toast'
-  import { getAlwaysLoadImages, getThemeMode } from '$lib/stores/settings.svelte'
+  import { getAlwaysLoadImages, getThemeMode, getCollapseQuotedText } from '$lib/stores/settings.svelte'
   import { collapseQuotedHtml, splitQuotedText, QUOTE_TOGGLE_CLASS, QUOTE_WRAPPER_CLASS } from './quotedText'
 
   interface Props {
@@ -53,7 +53,7 @@
 
   // Derived state
   let hasRemoteImages = $derived(checkForRemoteImages(bodyHtml))
-  let splitText = $derived(splitQuotedText(bodyText))
+  let splitText = $derived(getCollapseQuotedText() ? splitQuotedText(bodyText) : { main: bodyText, quoted: '' })
 
   // Outer iframe element bg: matches the dark-mail surface color (derived from
   // active theme) when darken=true, otherwise white. Reactive to theme changes
@@ -175,7 +175,9 @@
 
   function buildIframeContent(html: string, applyDarken: boolean): string {
     // untrack: toggling happens inside the iframe, so it must not trigger a rebuild
-    const processedHtml = collapseQuotedHtml(processHtml(html, imagesBlocked), untrack(() => quoteExpanded), $_('viewer.toggleQuoted'))
+    const processedHtml = getCollapseQuotedText()
+      ? collapseQuotedHtml(processHtml(html, imagesBlocked), untrack(() => quoteExpanded), $_('viewer.toggleQuoted'))
+      : processHtml(html, imagesBlocked)
     const imgSrc = imagesBlocked ? "'self' data:" : '* data:'
 
     // Double-invert: page-level invert + image-level re-invert keeps photos

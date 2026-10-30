@@ -229,6 +229,8 @@ export function GetAutoDetectedFolders(arg1:string):Promise<Record<string, strin
 
 export function GetAutostart():Promise<boolean>;
 
+export function GetCollapseQuotedText():Promise<boolean>;
+
 export function GetComposerFormat():Promise<string>;
 
 export function GetComposerMode():Promise<string>;
@@ -356,6 +358,8 @@ export function GetShowMessageListCircles():Promise<boolean>;
 export function GetShowMessageListProfilePics():Promise<boolean>;
 
 export function GetShowTitleBar():Promise<boolean>;
+
+export function GetShowViewSourceButton():Promise<boolean>;
 
 export function GetShowViewerCircles():Promise<boolean>;
 
@@ -569,6 +573,8 @@ export function SetAlwaysShowMessageCheckbox(arg1:boolean):Promise<void>;
 
 export function SetAutostart(arg1:boolean):Promise<void>;
 
+export function SetCollapseQuotedText(arg1:boolean):Promise<void>;
+
 export function SetComposerFormat(arg1:string):Promise<void>;
 
 export function SetComposerMode(arg1:string):Promise<void>;
@@ -628,6 +634,8 @@ export function SetShowMessageListCircles(arg1:boolean):Promise<void>;
 export function SetShowMessageListProfilePics(arg1:boolean):Promise<void>;
 
 export function SetShowTitleBar(arg1:boolean):Promise<void>;
+
+export function SetShowViewSourceButton(arg1:boolean):Promise<void>;
 
 export function SetShowViewerCircles(arg1:boolean):Promise<void>;
 

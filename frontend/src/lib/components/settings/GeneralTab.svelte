@@ -32,6 +32,8 @@
     showMessageListProfilePics: boolean
     alwaysShowMessageCheckbox: boolean
     showViewerCircles: boolean
+    collapseQuotedText: boolean
+    showViewSourceButton: boolean
     darkMailContent: boolean
     darkComposerBody: boolean
   }
@@ -60,6 +62,8 @@
     showMessageListProfilePics = $bindable(),
     alwaysShowMessageCheckbox = $bindable(),
     showViewerCircles = $bindable(),
+    collapseQuotedText = $bindable(),
+    showViewSourceButton = $bindable(),
     darkMailContent = $bindable(),
     darkComposerBody = $bindable(),
   }: Props = $props()
@@ -341,6 +345,38 @@
         <Switch
           id="show-viewer-circles"
           bind:checked={showViewerCircles}
+        />
+      </div>
+    </div>
+
+    <!-- Collapse the quoted part of replies behind a toggle in the viewer (default off) -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <Label for="collapse-quoted-text">{$_('settingsGeneral.collapseQuotedText')}</Label>
+          <p class="text-xs text-muted-foreground">
+            {$_('settingsGeneral.collapseQuotedTextHelp')}
+          </p>
+        </div>
+        <Switch
+          id="collapse-quoted-text"
+          bind:checked={collapseQuotedText}
+        />
+      </div>
+    </div>
+
+    <!-- Show the View Source button below each message in the viewer (default on) -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <Label for="show-view-source-button">{$_('settingsGeneral.showViewSourceButton')}</Label>
+          <p class="text-xs text-muted-foreground">
+            {$_('settingsGeneral.showViewSourceButtonHelp')}
+          </p>
+        </div>
+        <Switch
+          id="show-view-source-button"
+          bind:checked={showViewSourceButton}
         />
       </div>
     </div>

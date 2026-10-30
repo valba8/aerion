@@ -422,6 +422,10 @@ export function GetAutostart() {
   return window['go']['app']['App']['GetAutostart']();
 }
 
+export function GetCollapseQuotedText() {
+  return window['go']['app']['App']['GetCollapseQuotedText']();
+}
+
 export function GetComposerFormat() {
   return window['go']['app']['App']['GetComposerFormat']();
 }
@@ -676,6 +680,10 @@ export function GetShowMessageListProfilePics() {
 
 export function GetShowTitleBar() {
   return window['go']['app']['App']['GetShowTitleBar']();
+}
+
+export function GetShowViewSourceButton() {
+  return window['go']['app']['App']['GetShowViewSourceButton']();
 }
 
 export function GetShowViewerCircles() {
@@ -1102,6 +1110,10 @@ export function SetAutostart(arg1) {
   return window['go']['app']['App']['SetAutostart'](arg1);
 }
 
+export function SetCollapseQuotedText(arg1) {
+  return window['go']['app']['App']['SetCollapseQuotedText'](arg1);
+}
+
 export function SetComposerFormat(arg1) {
   return window['go']['app']['App']['SetComposerFormat'](arg1);
 }
@@ -1220,6 +1232,10 @@ export function SetShowMessageListProfilePics(arg1) {
 
 export function SetShowTitleBar(arg1) {
   return window['go']['app']['App']['SetShowTitleBar'](arg1);
+}
+
+export function SetShowViewSourceButton(arg1) {
+  return window['go']['app']['App']['SetShowViewSourceButton'](arg1);
 }
 
 export function SetShowViewerCircles(arg1) {

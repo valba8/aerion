@@ -124,6 +124,26 @@ func (a *App) SetShowViewerCircles(enabled bool) error {
 	return a.settingsStore.SetShowViewerCircles(enabled)
 }
 
+// GetCollapseQuotedText returns whether the quoted part of replies is collapsed in the viewer
+func (a *App) GetCollapseQuotedText() (bool, error) {
+	return a.settingsStore.GetCollapseQuotedText()
+}
+
+// SetCollapseQuotedText sets whether the quoted part of replies is collapsed in the viewer
+func (a *App) SetCollapseQuotedText(enabled bool) error {
+	return a.settingsStore.SetCollapseQuotedText(enabled)
+}
+
+// GetShowViewSourceButton returns whether the View Source button is shown below each message
+func (a *App) GetShowViewSourceButton() (bool, error) {
+	return a.settingsStore.GetShowViewSourceButton()
+}
+
+// SetShowViewSourceButton sets whether the View Source button is shown below each message
+func (a *App) SetShowViewSourceButton(enabled bool) error {
+	return a.settingsStore.SetShowViewSourceButton(enabled)
+}
+
 // GetMessageListSortOrder returns the message list sort order setting
 func (a *App) GetMessageListSortOrder() (string, error) {
 	return a.settingsStore.GetMessageListSortOrder()

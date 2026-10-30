@@ -17,7 +17,7 @@
   import MessageContextMenu from '$lib/components/common/MessageContextMenu.svelte'
   import { _ } from '$lib/i18n'
   import { isDialogGuardActive } from '$lib/stores/dialogGuard'
-  import { getShowViewerCircles, getDarkMailContent } from '$lib/stores/settings.svelte'
+  import { getShowViewerCircles, getDarkMailContent, getShowViewSourceButton } from '$lib/stores/settings.svelte'
   import { getIsDarkActive } from '$lib/stores/theme.svelte'
 
   interface Props {
@@ -1816,7 +1816,19 @@
                         </div>
                       {/if}
 
-                      <!-- Message source (toggled from the message context menu) -->
+                      <!-- View Source: optional button row (setting); also always
+                           available from the message context menu -->
+                      {#if getShowViewSourceButton()}
+                        <div class="border-t border-border pt-4 mt-4">
+                          <button
+                            onclick={() => toggleViewSource(msg.id)}
+                            class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            <Icon icon="mdi:code-tags" class="w-4 h-4" />
+                            {viewingSourceMessageId === msg.id ? $_('viewer.hideSource') : $_('viewer.viewSource')}
+                          </button>
+                        </div>
+                      {/if}
                       {#if viewingSourceMessageId === msg.id}
                         <div class="mt-4">
                           {#if loadingSource}
@@ -1836,7 +1848,7 @@
                               <pre class="text-xs bg-muted/50 p-4 rounded-md overflow-x-auto max-h-96 overflow-y-auto whitespace-pre-wrap break-all font-mono">{messageSource}</pre>
                             </div>
                           {/if}
-                          </div>
+                        </div>
                       {/if}
                     </div>
                   </div>
