@@ -2,7 +2,7 @@
 // Provides reactive state for application settings
 
 // @ts-ignore - wailsjs path
-import { GetMessageListDensity, GetMessageListSortOrder, GetThemeMode, GetShowTitleBar, GetRunBackground, GetStartHidden, GetAutostart, GetLanguage, GetComposerMode, GetMailtoMode, GetComposerFormat, GetNativeTitleBar, GetAlwaysLoadImages, GetDarkMailContent, GetDarkComposerBody, GetAccentBarUnread, GetAccentUnreadStyle, GetShowMessageListCircles, GetShowMessageListProfilePics, GetAlwaysShowMessageCheckbox, GetShowViewerCircles, GetSpellcheckEnabled, GetSpellcheckLanguages, GetSpellcheckCustomWords } from '../../../wailsjs/go/app/App'
+import { GetMessageListDensity, GetMessageListSortOrder, GetThemeMode, GetShowTitleBar, GetRunBackground, GetStartHidden, GetAutostart, GetLanguage, GetComposerMode, GetMailtoMode, GetComposerFormat, GetNativeTitleBar, GetAlwaysLoadImages, GetDarkMailContent, GetDarkComposerBody, GetAccentBarUnread, GetAccentUnreadStyle, GetShowMessageListCircles, GetShowMessageListProfilePics, GetAccountColorStrip, GetUnreadAccentUnderAvatar, GetAlwaysShowMessageCheckbox, GetShowViewerCircles, GetSpellcheckEnabled, GetSpellcheckLanguages, GetSpellcheckCustomWords } from '../../../wailsjs/go/app/App'
 import { setLocale as setI18nLocale, locale as i18nLocale } from '$lib/i18n'
 import { get } from 'svelte/store'
 import { loadDateFnsLocale, getDateFnsLocale } from '$lib/i18n/dateFnsLocale'
@@ -46,6 +46,8 @@ let accentBarUnread = $state<boolean>(false)
 let accentUnreadStyle = $state<string>('dot')
 let showMessageListCircles = $state<boolean>(true)
 let showMessageListProfilePics = $state<boolean>(false)
+let accountColorStrip = $state<boolean>(false)
+let unreadAccentUnderAvatar = $state<boolean>(false)
 let alwaysShowMessageCheckbox = $state<boolean>(false)
 let showViewerCircles = $state<boolean>(true)
 
@@ -136,6 +138,14 @@ export function getShowMessageListCircles(): boolean {
 
 export function getShowMessageListProfilePics(): boolean {
   return showMessageListProfilePics
+}
+
+export function getAccountColorStrip(): boolean {
+  return accountColorStrip
+}
+
+export function getUnreadAccentUnderAvatar(): boolean {
+  return unreadAccentUnderAvatar
 }
 
 export function getAlwaysShowMessageCheckbox(): boolean {
@@ -243,6 +253,14 @@ export function setShowMessageListProfilePics(v: boolean) {
   showMessageListProfilePics = v
 }
 
+export function setAccountColorStrip(v: boolean) {
+  accountColorStrip = v
+}
+
+export function setUnreadAccentUnderAvatar(v: boolean) {
+  unreadAccentUnderAvatar = v
+}
+
 export function setAlwaysShowMessageCheckbox(v: boolean) {
   alwaysShowMessageCheckbox = v
 }
@@ -254,7 +272,7 @@ export function setShowViewerCircles(v: boolean) {
 // Load settings from backend (call on app startup)
 export async function loadSettings(): Promise<ThemeMode> {
   try {
-    const [density, sortOrder, theme, titleBar, runBg, startHid, autoSt, lang, compMode, mailMode, compFormat, nativeTB, alwaysImages, darkMail, darkComposer, accentBar, accentStyle, listCircles, listProfilePics, alwaysCheckbox, viewerCircles, scEnabled, scLangs, scWords] = await Promise.all([
+    const [density, sortOrder, theme, titleBar, runBg, startHid, autoSt, lang, compMode, mailMode, compFormat, nativeTB, alwaysImages, darkMail, darkComposer, accentBar, accentStyle, listCircles, listProfilePics, accountStrip, accentUnderAvatar, alwaysCheckbox, viewerCircles, scEnabled, scLangs, scWords] = await Promise.all([
       GetMessageListDensity(),
       GetMessageListSortOrder(),
       GetThemeMode(),
@@ -274,6 +292,8 @@ export async function loadSettings(): Promise<ThemeMode> {
       GetAccentUnreadStyle(),
       GetShowMessageListCircles(),
       GetShowMessageListProfilePics(),
+      GetAccountColorStrip(),
+      GetUnreadAccentUnderAvatar(),
       GetAlwaysShowMessageCheckbox(),
       GetShowViewerCircles(),
       GetSpellcheckEnabled(),
@@ -298,6 +318,8 @@ export async function loadSettings(): Promise<ThemeMode> {
     accentUnreadStyle = accentStyle || 'dot'
     showMessageListCircles = listCircles ?? true
     showMessageListProfilePics = listProfilePics ?? false
+    accountColorStrip = accountStrip ?? false
+    unreadAccentUnderAvatar = accentUnderAvatar ?? false
     alwaysShowMessageCheckbox = alwaysCheckbox ?? false
     showViewerCircles = viewerCircles ?? true
     spellcheckEnabled = scEnabled ?? true

@@ -94,6 +94,26 @@ func (a *App) SetShowMessageListProfilePics(enabled bool) error {
 	return a.settingsStore.SetShowMessageListProfilePics(enabled)
 }
 
+// GetAccountColorStrip returns whether the unified inbox account color is shown as a left-edge strip
+func (a *App) GetAccountColorStrip() (bool, error) {
+	return a.settingsStore.GetAccountColorStrip()
+}
+
+// SetAccountColorStrip sets whether the unified inbox account color is shown as a left-edge strip
+func (a *App) SetAccountColorStrip(enabled bool) error {
+	return a.settingsStore.SetAccountColorStrip(enabled)
+}
+
+// GetUnreadAccentUnderAvatar returns whether the unread accent is placed under the sender avatar
+func (a *App) GetUnreadAccentUnderAvatar() (bool, error) {
+	return a.settingsStore.GetUnreadAccentUnderAvatar()
+}
+
+// SetUnreadAccentUnderAvatar sets whether the unread accent is placed under the sender avatar
+func (a *App) SetUnreadAccentUnderAvatar(enabled bool) error {
+	return a.settingsStore.SetUnreadAccentUnderAvatar(enabled)
+}
+
 // GetAlwaysShowMessageCheckbox returns whether the message list reserves a fixed checkbox column
 func (a *App) GetAlwaysShowMessageCheckbox() (bool, error) {
 	return a.settingsStore.GetAlwaysShowMessageCheckbox()

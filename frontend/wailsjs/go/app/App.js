@@ -382,6 +382,10 @@ export function GetAccount(arg1) {
   return window['go']['app']['App']['GetAccount'](arg1);
 }
 
+export function GetAccountColorStrip() {
+  return window['go']['app']['App']['GetAccountColorStrip']();
+}
+
 export function GetAccountFoldersForMapping(arg1) {
   return window['go']['app']['App']['GetAccountFoldersForMapping'](arg1);
 }
@@ -746,6 +750,10 @@ export function GetUnifiedInboxUnreadCount() {
   return window['go']['app']['App']['GetUnifiedInboxUnreadCount']();
 }
 
+export function GetUnreadAccentUnderAvatar() {
+  return window['go']['app']['App']['GetUnreadAccentUnderAvatar']();
+}
+
 export function HasPGPKey(arg1) {
   return window['go']['app']['App']['HasPGPKey'](arg1);
 }
@@ -1082,6 +1090,10 @@ export function SetAccentUnreadStyle(arg1) {
   return window['go']['app']['App']['SetAccentUnreadStyle'](arg1);
 }
 
+export function SetAccountColorStrip(arg1) {
+  return window['go']['app']['App']['SetAccountColorStrip'](arg1);
+}
+
 export function SetAccountEnabled(arg1, arg2) {
   return window['go']['app']['App']['SetAccountEnabled'](arg1, arg2);
 }
@@ -1244,6 +1256,10 @@ export function SetTermsAccepted(arg1) {
 
 export function SetThemeMode(arg1) {
   return window['go']['app']['App']['SetThemeMode'](arg1);
+}
+
+export function SetUnreadAccentUnderAvatar(arg1) {
+  return window['go']['app']['App']['SetUnreadAccentUnderAvatar'](arg1);
 }
 
 export function ShowWindow() {

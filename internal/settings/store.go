@@ -38,6 +38,8 @@ const (
 	KeyAccentUnreadStyle          = "accent_unread_style" // "dot" | "glowdot" | "bar"; applies when accent_bar_unread is on
 	KeyShowMessageListCircles     = "show_message_list_circles"
 	KeyShowMessageListProfilePics = "show_message_list_profile_pics" // render contact photos in the message-list avatar slot (default off)
+	KeyAccountColorStrip          = "account_color_strip"            // show the unified inbox account color as a full-height strip on the row's left edge instead of a dot (default off)
+	KeyUnreadAccentUnderAvatar    = "unread_accent_under_avatar"     // place the unread accent under the sender avatar instead of the row's left edge (default off)
 	KeyAlwaysShowMessageCheckbox  = "always_show_message_checkbox"   // reserve a fixed checkbox column instead of the hover/swipe slide-reveal (default off)
 	KeyShowViewerCircles          = "show_viewer_circles"
 	KeyLastSeenVersion            = "last_seen_version"       // for "What's new in this version" launch dialog
@@ -443,6 +445,42 @@ func (s *Store) SetShowMessageListProfilePics(enabled bool) error {
 		v = "true"
 	}
 	return s.Set(KeyShowMessageListProfilePics, v)
+}
+
+// GetAccountColorStrip returns whether the unified inbox account color is shown as a left-edge strip. Default: false.
+func (s *Store) GetAccountColorStrip() (bool, error) {
+	value, err := s.Get(KeyAccountColorStrip)
+	if err != nil {
+		return false, err
+	}
+	return value == "true", nil
+}
+
+// SetAccountColorStrip sets whether the unified inbox account color is shown as a left-edge strip
+func (s *Store) SetAccountColorStrip(enabled bool) error {
+	v := "false"
+	if enabled {
+		v = "true"
+	}
+	return s.Set(KeyAccountColorStrip, v)
+}
+
+// GetUnreadAccentUnderAvatar returns whether the unread accent is placed under the sender avatar. Default: false.
+func (s *Store) GetUnreadAccentUnderAvatar() (bool, error) {
+	value, err := s.Get(KeyUnreadAccentUnderAvatar)
+	if err != nil {
+		return false, err
+	}
+	return value == "true", nil
+}
+
+// SetUnreadAccentUnderAvatar sets whether the unread accent is placed under the sender avatar
+func (s *Store) SetUnreadAccentUnderAvatar(enabled bool) error {
+	v := "false"
+	if enabled {
+		v = "true"
+	}
+	return s.Set(KeyUnreadAccentUnderAvatar, v)
 }
 
 // GetAlwaysShowMessageCheckbox returns whether the message list reserves a

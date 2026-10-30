@@ -20,7 +20,7 @@
   import MessageContextMenu from '$lib/components/common/MessageContextMenu.svelte'
   import Avatar from '$lib/components/kit/Avatar.svelte'
   import { toasts } from '$lib/stores/toast'
-  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox } from '$lib/stores/settings.svelte'
+  import { getAccentBarUnread, getAccentUnreadStyle, getShowMessageListCircles, getShowMessageListProfilePics, getAlwaysShowMessageCheckbox, getAccountColorStrip, getUnreadAccentUnderAvatar } from '$lib/stores/settings.svelte'
   import { getLayoutMode } from '$lib/stores/layout.svelte'
   import { contactPhotos } from '$lib/stores/contactPhotos.svelte'
 
@@ -260,6 +260,9 @@
 
   const hasUnread = $derived((conversation.unreadCount || 0) > 0)
   const showUnreadAccent = $derived(getAccentBarUnread() && hasUnread)
+  // Accent under the avatar (setting) needs the avatar column; otherwise it
+  // stays on the row's left edge
+  const accentUnderAvatar = $derived(getUnreadAccentUnderAvatar() && getShowMessageListCircles())
 
   // Get message IDs from the conversation for context menu
   // Use messageIds field (populated by ListConversationsByFolder), fallback to messages array
@@ -463,7 +466,7 @@
     draggable={getLayoutMode() !== 'narrow'}
     class="group relative w-full flex items-start touch-pan-y {densityClasses.row[density]} text-left border-b border-border transition-colors duration-300 cursor-pointer outline-none {selected
       ? 'bg-primary/20'
-      : 'hover:bg-muted/50'} {showUnreadAccent && !getShowMessageListCircles() && getAccentUnreadStyle() === 'bar' ? 'border-l-2 border-l-primary' : ''} {swipeAnim === 'select' ? 'swipe-select-anim' : ''} {swipeAnim === 'delete' ? 'swipe-delete-anim' : ''}"
+      : 'hover:bg-muted/50'} {showUnreadAccent && !accentUnderAvatar && getAccentUnreadStyle() === 'bar' ? 'border-l-2 border-l-primary' : ''} {swipeAnim === 'select' ? 'swipe-select-anim' : ''} {swipeAnim === 'delete' ? 'swipe-delete-anim' : ''}"
     onclick={handleRowClick}
     onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect() }}}
     ondragstart={handleDragStart}
@@ -475,18 +478,19 @@
     role="button"
     tabindex="0"
   >
-    {#if showUnreadAccent && !getShowMessageListCircles() && getAccentUnreadStyle() !== 'bar'}
-      <!-- Unread accent without avatars, dot variants: absolute so it never
-           shifts row content (unlike the 2px bar border); glow via inline
-           style — theme primary. With avatars it sits under the avatar. -->
+    {#if showUnreadAccent && !accentUnderAvatar && getAccentUnreadStyle() !== 'bar'}
+      <!-- Unread accent, dot variants: absolute so it never shifts row content
+           (unlike the 2px bar border); glow via inline style — theme primary.
+           With "accent under avatar" it sits under the avatar instead. -->
       <span
         class="pointer-events-none absolute -left-0.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary"
         style={getAccentUnreadStyle() === 'glowdot' ? 'box-shadow: 0 0 6px 1px hsl(var(--primary) / 0.7)' : ''}
       ></span>
     {/if}
 
-    {#if showAccountIndicator && accountColor}
-      <!-- Account color (unified inbox): full-height strip on the left edge -->
+    {#if showAccountIndicator && accountColor && getAccountColorStrip()}
+      <!-- Account color (unified inbox, strip setting): full-height strip on
+           the left edge; otherwise a dot next to the sender -->
       <span
         class="absolute inset-y-0 left-0 w-1"
         style="background-color: {accountColor}"
@@ -558,7 +562,7 @@
           </div>
         {/if}
         <!-- Unread accent under the avatar: dot variants or a horizontal bar -->
-        {#if showUnreadAccent}
+        {#if showUnreadAccent && accentUnderAvatar}
           {#if getAccentUnreadStyle() === 'bar'}
             <span class="pointer-events-none w-3/5 h-[3px] rounded-full bg-primary"></span>
           {:else}
@@ -574,6 +578,15 @@
     <!-- Content -->
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-2 mb-0.5">
+        <!-- Account Indicator (unified inbox, default dot style) -->
+        {#if showAccountIndicator && accountColor && !getAccountColorStrip()}
+          <span
+            class="w-2 h-2 rounded-full flex-shrink-0"
+            style="background-color: {accountColor}"
+            title={accountName}
+          ></span>
+        {/if}
+
         <!-- Participant Names; the highlighted branch only when the search
              actually matched the sender name, otherwise the normal
              latest-first display (#169) -->

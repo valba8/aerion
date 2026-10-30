@@ -209,6 +209,8 @@ export function GetAccentUnreadStyle():Promise<string>;
 
 export function GetAccount(arg1:string):Promise<account.Account>;
 
+export function GetAccountColorStrip():Promise<boolean>;
+
 export function GetAccountFoldersForMapping(arg1:string):Promise<Array<folder.Folder>>;
 
 export function GetAccounts():Promise<Array<account.Account>>;
@@ -391,6 +393,8 @@ export function GetUnifiedInboxCount(arg1:string):Promise<number>;
 
 export function GetUnifiedInboxUnreadCount():Promise<number>;
 
+export function GetUnreadAccentUnderAvatar():Promise<boolean>;
+
 export function HasPGPKey(arg1:string):Promise<boolean>;
 
 export function HasSMIMECertificate(arg1:string):Promise<boolean>;
@@ -559,6 +563,8 @@ export function SetAccentBarUnread(arg1:boolean):Promise<void>;
 
 export function SetAccentUnreadStyle(arg1:string):Promise<void>;
 
+export function SetAccountColorStrip(arg1:boolean):Promise<void>;
+
 export function SetAccountEnabled(arg1:string,arg2:boolean):Promise<void>;
 
 export function SetAddressbookEnabled(arg1:string,arg2:boolean):Promise<void>;
@@ -640,6 +646,8 @@ export function SetStartHidden(arg1:boolean):Promise<void>;
 export function SetTermsAccepted(arg1:boolean):Promise<void>;
 
 export function SetThemeMode(arg1:string):Promise<void>;
+
+export function SetUnreadAccentUnderAvatar(arg1:boolean):Promise<void>;
 
 export function ShowWindow():Promise<void>;
 
